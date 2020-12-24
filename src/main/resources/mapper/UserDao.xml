@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.UserDao">
+
+    <select id="selectUserLogin" resultType="cn.krain.entity.User">
+        select * from user where username=#{logUser} and password=#{md5Pw}
+    </select>
+
+    <!--
+        根据不同的参数查询用户（参数数量不定，也可没有）
+        test中的值要与参数名相同，同时也是某一实体类的某一属性
+    -->
+    <!--<select id="selectAllUser" resultType="cn.krain.entity.User">
+        select u.id, u.username, r.id as roleId, u.createTime, r.roleName as roleName
+        from user u join role r on u.roleId=r.id
+        <where>
+            <if test="username!=null and username!='' ">
+                u.username like CONCAT('%',#{param1},'%')
+            </if>
+            <if test="roleName!=null and roleName!='' ">
+                and r.roleName like CONCAT('%',#{param2},'%')
+            </if>
+        </where>
+    </select>-->
+    <select id="selectAllUser" resultType="cn.krain.vo.UserVo">
+        select u.id, u.username, r.id as roleId, u.createTime, r.roleName as roleName
+        from user u join role r on u.roleId=r.id
+        <where>
+            <if test="username!=null and username!='' ">
+                u.username like CONCAT('%',#{param1},'%')
+            </if>
+            <if test="roleName!=null and roleName!='' ">
+                and r.roleName like CONCAT('%',#{param2},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--
+        根据用户id删除用户
+    -->
+    <delete id="deleteUserById">
+        delete from user where id=#{id}
+    </delete>
+
+    <!--
+        新增一个user
+    -->
+    <insert id="insertUser">
+        insert into User (id,username,password,roleId,createTime) values (#{id},#{username},#{password},#{roleId},#{createTime})
+    </insert>
+
+    <!--
+        修改用户信息
+    -->
+    <update id="updateUser">
+        update User set username=#{username}, roleId=#{roleId} where id=#{id}
+    </update>
+</mapper>

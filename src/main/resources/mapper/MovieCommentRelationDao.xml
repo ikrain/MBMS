@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.MovieCommentRelationDao">
+
+    <!--删除关联数据-->
+    <delete id="deleteMCRByCommentId">
+        delete from movie_comment_relation where commentId=#{id}
+    </delete>
+
+    <delete id="deleteMCRByMovieId">
+        delete from movie_comment_relation where movieId=#{id}
+    </delete>
+
+    <!--增加关联数据-->
+    <insert id="insertMCR">
+        insert into movie_comment_relation (id,movieId,commentId) values (#{id},#{movieId},#{commentId})
+    </insert>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.MovieSortRelationDao">
+
+    <insert id="insertMovieSortRelation">
+        insert into movie_sort_relation (id,movieId,sortId) values (#{id},#{movieId},#{sortId})
+    </insert>
+
+    <delete id="deleteMovieSortRelation">
+        delete from movie_sort_relation where movieId=#{id}
+    </delete>
+
+    <delete id="deleteMSRByMSID">
+        delete from movie_sort_relation where movieId=#{movieId} and sortId=#{sortId}
+    </delete>
+
+    <select id="selectMovieSortRelation" resultType="cn.krain.entity.MovieSortRelation">
+        select * from movie_sort_relation where movieId=#{movieId} and sortId=#{typeId}
+    </select>
+
+    <select id="selectMSRByMovieId" resultType="cn.krain.entity.MovieSortRelation">
+        select * from movie_sort_relation where movieId=#{movieId}
+    </select>
+
+</mapper>

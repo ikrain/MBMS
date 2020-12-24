@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.MovieNewsRelationDao">
+    <delete id="deleteMERByNewsId">
+        delete from movie_news_relation where newsId=#{id}
+    </delete>
+
+    <delete id="deleteMERByMovieId">
+        delete from movie_news_relation where movieId=#{id}
+    </delete>
+
+    <insert id="insertMNR">
+        insert into movie_news_relation
+        (
+            id,
+            movieId,
+            newsId
+        ) values
+        (
+            #{id},
+            #{movieId},
+            #{newsId}
+        )
+    </insert>
+
+</mapper>

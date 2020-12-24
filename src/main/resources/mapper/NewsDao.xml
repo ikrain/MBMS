@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.NewsDao">
+
+    <!--根据类型和名称查询电影新闻（条件可为空）-->
+    <select id="selectNews" resultType="cn.krain.entity.News">
+        select * from news
+        <where>
+            <if test="name!=null and name!='' ">
+                name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="type!=null and type!='' ">
+                or type like CONCAT('%',#{type},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectNewsByMovieId" resultType="cn.krain.entity.News">
+        select * from news
+        <where>
+            id in
+            (
+            select newsId from movie_news_relation
+            <where>
+                <if test="movieId!=null and movieId!=''">
+                    movieId=#{movieId}
+                </if>
+            </where>
+            )
+        </where>
+    </select>
+
+    <select id="selectAllNews" resultType="cn.krain.entity.News">
+        select * from news
+    </select>
+
+    <!--根据电影ID删除新闻-->
+    <delete id="deleteNewsByMovieId">
+        delete from news where id in
+        (
+            select newsId from movie_news_relation where movieId=#{id}
+        )
+    </delete>
+
+    <!--删除指定id的电影新闻-->
+    <delete id="deleteNewsById">
+        delete from news where id=#{id}
+    </delete>
+
+    <!--新增电影新闻-->
+    <insert id="insertNews">
+        insert into news
+        (
+            id,
+            name,
+            content,
+            type,
+            createTime
+        )
+        values
+        (
+            #{id},
+            #{name},
+            #{content},
+            #{type},
+            #{createTime}
+        )
+    </insert>
+
+    <!--修改新闻信息-->
+    <update id="updateNews">
+        update news set
+        name=#{name},
+        content=#{content},
+        type=#{type},
+        createTime=#{createTime}
+        where id=#{id}
+    </update>
+</mapper>

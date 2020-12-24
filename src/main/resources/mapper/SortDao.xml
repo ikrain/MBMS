@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.SortDao">
+
+    <!--根据类型名称查询类型（sortName可为空）-->
+    <select id="selectSortByName" resultType="cn.krain.entity.Sort">
+        select * from Sort
+        <where>
+            <if test="sort!=null and sort!='' ">
+                sort like CONCAT('%',#{sort},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--根据类型名称查询类型-->
+    <select id="selectSortByStrName" resultType="cn.krain.entity.Sort">
+        select * from sort where sort like CONCAT('%',#{sort},'%')
+    </select>
+
+    <!--删除指定id的角色-->
+    <delete id="deleteSort">
+        delete from Sort where id=#{id}
+    </delete>
+
+    <!--新增角色-->
+    <insert id="insertSort">
+        insert into Sort (id, sort) values (#{id},#{sort})
+    </insert>
+
+    <!--修改角色信息-->
+    <update id="updateSort">
+        update Sort set sort=#{sort} where id=#{id}
+    </update>
+</mapper>

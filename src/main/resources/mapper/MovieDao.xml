@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.MovieDao">
+
+    <!--根据角色名称或拥有系统模块查询角色列表（roleName与menu可为空）-->
+    <select id="selectMovieByMore" resultType="cn.krain.entity.Movie">
+        select * from movie
+        <where>
+            <if test="movieName!=null and movieName!='' ">
+                movieName like CONCAT('%',#{movieName},'%')
+            </if>
+            <if test="director!=null and director!='' ">
+                and director like CONCAT('%',#{director},'%')
+            </if>
+            <if test="screenwriter!=null and screenwriter!='' ">
+                and screenwriter like CONCAT('%',#{screenwriter},'%')
+            </if>
+            <if test="type!=null and type!='' ">
+                and type like CONCAT('%',#{type},'%')
+            </if>
+            <if test="country!=null and country!='' ">
+                and country like CONCAT('%',#{country},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMovieByMovieName" resultType="cn.krain.entity.Movie">
+        select * from movie where movieName=#{movieName}
+    </select>
+
+    <!--删除指定id的角色-->
+    <delete id="deleteMovie">
+        delete from Movie where id=#{id}
+    </delete>
+
+    <!--新增电影-->
+    <insert id="insertMovie">
+        insert into Movie
+        (
+            id,
+            movieName,
+            director,
+            screenwriter,
+            actor,
+            type,
+            country,
+            language,
+            releaseDate,
+            duration,
+            poster,
+            synopsis,
+            description,
+            movieServerName
+        )
+        values
+        (
+            #{id},
+            #{movieName},
+            #{director},
+            #{screenwriter},
+            #{actor},
+            #{type},
+            #{country},
+            #{language},
+            #{releaseDate},
+            #{duration},
+            #{poster},
+            #{synopsis},
+            #{description},
+            #{movieServerName}
+        )
+    </insert>
+
+    <!--修改电影信息-->
+    <update id="updateMovie">
+        update Movie set
+        movieName=#{movieName},
+        director=#{director},
+        screenwriter=#{screenwriter},
+        actor=#{actor},
+        type=#{type},
+        country=#{country},
+        language=#{language},
+        releaseDate=#{releaseDate},
+        duration=#{duration},
+        poster=#{poster},
+        synopsis=#{synopsis},
+        description=#{description}
+        where
+        id=#{id}
+    </update>
+</mapper>

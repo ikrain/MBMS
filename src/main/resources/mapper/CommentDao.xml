@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.CommentDao">
+
+    <!--根据电影名称查询影评（条件可为空）-->
+    <select id="selectCommentByMovieId" resultType="cn.krain.entity.Comment">
+        select * from comment
+        <where>
+            id in
+            (
+                select commentId from movie_comment_relation
+                <where>
+                    <if test="movieId!=null and movieId!=''">
+                        movieId=#{movieId}
+                    </if>
+                </where>
+            )
+        </where>
+    </select>
+
+    <!--查询所有影评-->
+    <select id="selectAllComment" resultType="cn.krain.entity.Comment">
+        select * from comment
+    </select>
+
+    <!--删除指定id的影评-->
+    <delete id="deleteCommentByCommentId">
+        delete from comment where id=#{id}
+    </delete>
+
+    <!--根据电影ID删除影评-->
+    <delete id="deleteCommentByMovieId">
+        delete from comment where id in
+        (
+            select commentId from movie_comment_relation where movieId=#{id}
+        )
+    </delete>
+
+    <!--新增影评-->
+    <insert id="insertComment">
+        insert into comment
+        (
+            id,
+            author,
+            content,
+            time
+        )
+        values
+        (
+            #{id},
+            #{author},
+            #{content},
+            #{time}
+        )
+    </insert>
+
+    <!--修改影评信息-->
+    <update id="updateComment">
+        update comment set
+        author=#{author},
+        content=#{content},
+        time=#{time}
+        where id=#{id}
+    </update>
+</mapper>

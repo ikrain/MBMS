@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.krain.dao.RoleDao">
+
+    <!--根据角色名称或拥有系统模块查询角色列表（roleName与menu可为空）-->
+    <select id="selectRole" resultType="cn.krain.entity.Role">
+        select * from Role
+        <where>
+            <if test="roleName!=null and roleName!='' ">
+                roleName like CONCAT('%',#{roleName},'%')
+            </if>
+            <if test="menu!=null and menu!='' ">
+                or menu like CONCAT('%',#{menu},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--根据角色id查询角色-->
+    <select id="selectRoleById" resultType="cn.krain.entity.Role">
+        select * from Role where id=#{id}
+    </select>
+
+    <!--删除指定id的角色-->
+    <delete id="deleteRoleById">
+        delete from Role where id=#{id}
+    </delete>
+
+    <!--新增角色-->
+    <insert id="insertRole">
+        insert into Role (id, roleName, menu, createTime) values (#{id},#{roleName},#{menu},#{createTime})
+    </insert>
+
+    <!--修改角色信息-->
+    <update id="updateRole">
+        update Role set roleName=#{roleName}, menu=#{menu} where id=#{id}
+    </update>
+</mapper>
